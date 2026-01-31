@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Study Planner</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: radial-gradient(circle at top, #1e3357, #0b1526);
+  color: white;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  padding: 50px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1, h2 {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+h1 { font-size: 42px; }
+h2 { font-size: 28px; }
+
+.subtitle {
+  margin: 10px 0 40px;
+  font-size: 17px;
+  opacity: 0.9;
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+label {
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: none;
+  font-size: 15px;
+}
+
+button {
+  margin-top: 40px;
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #8fb3ff;
+  color: #0b1526;
+}
+
+#results {
+  margin-top: 60px;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.quote {
+  margin-top: 30px;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.pro {
+  margin-top: 60px;
+  padding: 30px;
+  border: 1px dashed #8fb3ff;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+}
+
+.pro h2 {
+  color: #a9c4ff;
+}
+
+.locked {
+  opacity: 0.6;
+}
+
+.footer {
+  margin-top: 80px;
+  font-size: 14px;
+  opacity: 0.75;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1><em>Plan your study time</em></h1>
+<div class="subtitle">
+Calculate how many focused study sessions you need per day based on how many exams and days you have left.
+</div>
+
+<div class="inputs">
+  <div>
+    <label>Days until exams</label>
+    <input id="days" type="number">
+  </div>
+  <div>
+    <label>Number of exams</label>
+    <input id="exams" type="number">
+  </div>
+  <div>
+    <label>Available study hours per day</label>
+    <input id="hours" type="number">
+  </div>
+</div>
+
+<button onclick="generatePlan()">Calculate my plan</button>
+
+<div id="results"></div>
+<div class="quote" id="quote"></div>
+
+<div class="pro">
+<h2><em>Unlock Pro — pay once, it’s yours forever</em></h2>
+<ul>
+  <li>Full daily plans (up to 3 months)</li>
+  <li>Unlimited subjects with difficulty levels</li>
+  <li>Smart session splitting & breaks</li>
+  <li>Affirmations & science-based reminders</li>
+  <li>Save & download your plans</li>
+</ul>
+</div>
+
+<div class="footer">
+A small companion for you by @veilsconvictions
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
