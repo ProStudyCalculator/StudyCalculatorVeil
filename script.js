@@ -1,58 +1,65 @@
-// ===== PRO STATE =====
-let isPro = localStorage.getItem("pro") === "true";
+let subjectCount = 0;
+const maxFreeSubjects = 5;
 
-// ===== DATA =====
-const affirmations = [
-  "I am intelligent.",
-  "I am capable.",
-  "I am disciplined.",
-  "I succeed."
+const motivations = [
+  "You got this sweetheart.",
+  "Discipline now buys freedom later.",
+  "You will have to study anyway — might as well start now.",
+  "You have everything you need to reach everything you want.",
+  "Everything will be okay.",
+  "I love you."
 ];
 
-// ===== CALCULATOR =====
-function generatePlan() {
-  const days = Number(document.getElementById("days").value);
-  const exams = Number(document.getElementById("exams").value);
-  const hours = Number(document.getElementById("hours").value);
+function addSubject() {
+  if (subjectCount >= maxFreeSubjects) return;
+  subjectCount++;
 
-  if (!days || !exams || !hours) {
-    alert("Fill everything.");
-    return;
-  }
-
-  const usableHours = Math.min(hours, 6);
-  const sessions = Math.ceil(usableHours);
-
-  let text = `<b>Daily plan:</b><br>`;
-  for (let i = 1; i <= sessions; i++) {
-    text += `Session ${i}: 1 hour study → 5 min break<br>`;
-  }
-
-  if (isPro) {
-    text += `<br><b>Pro insight:</b> Hard subjects first.`;
-  } else {
-    text += `<br><i>Upgrade to Pro for advanced planning.</i>`;
-  }
-
-  document.getElementById("output").innerHTML = text;
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <input placeholder="Subject name">
+    <select>
+      <option value="hard">Hard</option>
+      <option value="medium">Medium</option>
+      <option value="easy">Easy</option>
+    </select>
+  `;
+  document.getElementById("subjects").appendChild(div);
 }
 
-// ===== PRO UNLOCK (SIMULATION) =====
-function unlockPro() {
-  isPro = true;
-  localStorage.setItem("pro", "true");
+function calculate() {
+  const exams = +document.getElementById("exams").value;
+  const days = +document.getElementById("days").value;
+  const available = +document.getElementById("available").value;
+  const dailyCap = +document.getElementById("dailyCap").value;
+  const sessionCap = +document.getElementById("sessionCap").value;
 
-  document.getElementById("pro-status").innerText = "✅ Pro unlocked";
-  document.getElementById("pro-content").classList.remove("hidden");
+  const dailyStudy = Math.min(dailyCap, available, Math.max(2, 6 - Math.floor(days / 10)));
 
-  document.getElementById("affirmation").innerText =
-    affirmations[Math.floor(Math.random() * affirmations.length)];
-}
+  let sessions = [];
+  let remaining = dailyStudy;
 
-// ===== SHOW PRO IF ALREADY UNLOCKED =====
-if (isPro) {
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("pro-status").innerText = "✅ Pro unlocked";
-    document.getElementById("pro-content").classList.remove("hidden");
+  while (remaining > 0) {
+    let sessionLength = Math.min(sessionCap, remaining);
+    sessions.push(sessionLength);
+    remaining -= sessionLength;
+  }
+
+  let output = `<strong>Today’s plan:</strong><br>`;
+  sessions.forEach((s, i) => {
+    let breakTime =
+      s <= 1 ? "5 min" :
+      s <= 2 ? "10–15 min" :
+      s <= 3 ? "20–30 min" :
+      "30+ min";
+
+    output += `Session ${i + 1}: ${s}h study → ${breakTime} break<br>`;
   });
+
+  output += `<br><em>Reminder:</em> Sleep consolidates memory (Walker, 2005). Drink water.`;
+
+  document.getElementById("result").innerHTML = output;
+  document.getElementById("result").classList.remove("hidden");
+
+  document.getElementById("motivation").innerText =
+    motivations[Math.floor(Math.random() * motivations.length)];
 }
